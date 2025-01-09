@@ -1,0 +1,123 @@
+# Crypto Anomaly Detection Engine (CADE)
+#
+# Docker Compose configuration for local development
+# and testing environments
+#
+# Author: CADE
+# Team License: Proprietary
+
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      target: development
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./src:/app/src
+      - ./tests:/app/tests
+      - ./config:/app/config
+    environment:
+      - FLASK_APP=src/api/app.py
+      - FLASK_ENV=development
+      - DATABASE_URL=postgresql://cade:cade@db:5432/cade
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      - db
+      - redis
+      - blockchain-node
+    networks:
+      - cade-network
+
+  worker:
+    build:
+      context: .
+      target: development
+    command: celery -A src.worker.celery worker --loglevel=info
+    volumes:
+      - ./src:/app/src
+      - ./config:/app/config
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/1
+      - DATABASE_URL=postgresql://cade:cade@db:5432/cade
+    depends_on:
+      - redis
+      - db
+    networks:
+      - cade-network
+
+  db:
+    image: postgres:14-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=cade
+      - POSTGRES_PASSWORD=cade
+      - POSTGRES_DB=cade
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - cade-network
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - cade-network
+
+  blockchain-node:
+    image: trufflesuite/ganache:latest
+    ports:
+      - "8545:8545"
+    command:
+      - --deterministic
+      - --chain.networkId=1337
+      - --chain.chainId=1337
+      - --miner.blockTime=5
+    networks:
+      - cade-network
+
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./config/prometheus:/etc/prometheus
+      - prometheus_data:/prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --web.console.libraries=/usr/share/prometheus/console_libraries
+      - --web.console.templates=/usr/share/prometheus/consoles
+    networks:
+      - cade-network
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./config/grafana/provisioning:/etc/grafana/provisioning
+      - grafana_data:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    depends_on:
+      - prometheus
+    networks:
+      - cade-network
+
+networks:
+  cade-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:
+  prometheus_data:
+  grafana_data:
