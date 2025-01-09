@@ -1,0 +1,160 @@
+# Crypto Anomaly Detection Engine (CADE)
+#
+# Default Configuration
+#
+# This configuration file provides base settings for the CADE system.
+# All environment-specific configs inherit from these defaults.
+#
+# Author: CADE
+# Team License: Proprietary
+
+# API Configuration
+api:
+  version: 'v1'
+  rate_limit:
+    requests_per_minute: 60
+    burst_size: 10
+  cors:
+    allowed_origins: ['*']
+    allowed_methods: ['GET', 'POST', 'OPTIONS']
+  timeout:
+    read_seconds: 30
+    write_seconds: 30
+
+# Blockchain Configuration
+blockchain:
+  networks:
+    - name: 'ethereum'
+      rpc_url: 'http://localhost:8545'
+      chain_id: 1
+      block_time: 12
+    - name: 'bsc'
+      rpc_url: 'http://localhost:8546'
+      chain_id: 56
+      block_time: 3
+  monitoring:
+    blocks_to_watch: 1000
+    max_reorg_depth: 64
+    confirmation_blocks: 12
+
+# Database Configuration
+database:
+  type: 'postgresql'
+  pool_size: 20
+  max_overflow: 10
+  pool_timeout: 30
+  pool_recycle: 3600
+  connection:
+    host: 'localhost'
+    port: 5432
+    database: 'cade'
+    username: 'cade_user'
+
+# Model Configuration
+models:
+  lstm:
+    lookback_period: 24
+    forecast_horizon: 6
+    hidden_layers: [64, 32]
+    dropout_rate: 0.2
+  sentiment:
+    embedding_dimension: 768
+    max_sequence_length: 512
+    confidence_threshold: 0.7
+
+# Anomaly Detection
+anomaly:
+  thresholds:
+    price_change: 0.1
+    volume_spike: 3.0
+    liquidity_drop: 0.2
+  time_windows:
+    short_term: '5m'
+    medium_term: '1h'
+    long_term: '24h'
+  sensitivity:
+    low: 0.3
+    medium: 0.6
+    high: 0.8
+
+# Social Media Configuration
+social_media:
+  platforms:
+    - name: 'twitter'
+      rate_limit: 500
+      batch_size: 100
+    - name: 'telegram'
+      rate_limit: 20
+      batch_size: 50
+    - name: 'discord'
+      rate_limit: 50
+      batch_size: 25
+  monitoring:
+    update_interval: 300
+    cache_duration: 3600
+
+# Logging Configuration
+logging:
+  level: 'INFO'
+  format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+  handlers:
+    file:
+      filename: 'cade.log'
+      max_bytes: 10485760
+      backup_count: 5
+    console:
+      enabled: true
+      level: 'INFO'
+
+# Cache Configuration
+cache:
+  type: 'redis'
+  ttl:
+    default: 300
+    risk_score: 60
+    whale_activity: 120
+  connection:
+    host: 'localhost'
+    port: 6379
+    db: 0
+
+# Metrics and Monitoring
+metrics:
+  enabled: true
+  collection_interval: 10
+  retention_days: 30
+  exporters:
+    prometheus:
+      enabled: true
+      port: 9090
+    statsd:
+      enabled: false
+      host: 'localhost'
+      port: 8125
+
+# Security Configuration
+security:
+  jwt:
+    algorithm: 'HS256'
+    access_token_expire_minutes: 30
+    refresh_token_expire_days: 7
+  api_key:
+    length: 32
+    prefix: 'cade'
+  rate_limiting:
+    enabled: true
+    strategy: 'sliding_window'
+    
+# Webhook Configuration
+webhooks:
+  retry:
+    max_attempts: 3
+    initial_delay: 5
+    max_delay: 300
+  batch:
+    size: 100
+    timeout: 30
+  endpoints:
+    - name: 'alerts'
+      url_template: 'http://localhost:8080/webhook/alerts'
+      secret_header: 'X-Webhook-Secret'
