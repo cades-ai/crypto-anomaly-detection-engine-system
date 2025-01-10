@@ -23,19 +23,12 @@ api:
 
 # Blockchain Configuration
 blockchain:
-  networks:
-    - name: 'ethereum'
-      rpc_url: 'http://localhost:8545'
-      chain_id: 1
-      block_time: 12
-    - name: 'bsc'
-      rpc_url: 'http://localhost:8546'
-      chain_id: 56
-      block_time: 3
-  monitoring:
-    blocks_to_watch: 1000
-    max_reorg_depth: 64
-    confirmation_blocks: 12
+  rpc_endpoints:
+    - "https://api.mainnet-beta.solana.com"
+    - "https://solana-api.projectserum.com"
+  retry_delay: 5
+  max_retries: 3
+
 
 # Database Configuration
 database:
