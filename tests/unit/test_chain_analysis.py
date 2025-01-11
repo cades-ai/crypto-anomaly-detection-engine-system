@@ -13,6 +13,7 @@ from unittest.mock import Mock, patch
 import pytest
 from src.chain_analysis.blockchain_listener import BlockchainListener
 from src.chain_analysis.transaction_analyzer import TransactionAnalyzer
+from src.chain_analysis.liquidity_tracker import LiquidityTracker
 
 
 class TestBlockchainListener(unittest.TestCase):
@@ -98,6 +99,41 @@ class TestTransactionAnalyzer(unittest.TestCase):
         self.assertTrue('cyclic' in result['detected_patterns'])
 
 
+class TestLiquidityTracker(unittest.TestCase):
+    def setUp(self):
+        self.tracker = LiquidityTracker()
+        
+    def test_calculate_liquidity_impact(self):
+        pool_data = {
+            'token_a_reserve': 1000000,
+            'token_b_reserve': 1000000,
+            'pool_token_supply': 2000000,
+            'mint': 'PoolTokenMint123'
+        }
+        impact = self.tracker.calculate_liquidity_impact(100000, pool_data)
+        self.assertIsInstance(impact, float)
+        self.assertTrue(0 <= impact <= 1)
+
+    def test_detect_liquidity_removal(self):
+        events = [
+            {
+                'signature': '5KtPn1...',
+                'meta': {
+                    'preTokenBalances': [{'uiAmount': 1000}],
+                    'postTokenBalances': [{'uiAmount': 0}]
+                }
+            },
+            {
+                'signature': '6LuQm2...',
+                'meta': {
+                    'preTokenBalances': [{'uiAmount': 2000}],
+                    'postTokenBalances': [{'uiAmount': 0}]
+                }
+            }
+        ]
+        threshold = 0.1
+        is_suspicious = self.tracker.detect_liquidity_removal(events, threshold)
+        self.assertIsInstance(is_suspicious, bool)
 
 if __name__ == '__main__':
     unittest.main()
