@@ -1,0 +1,57 @@
+{
+  "model_type": "bert",
+  "architectures": ["BertForSequenceClassification"],
+  "attention_probs_dropout_prob": 0.1,
+  "hidden_act": "gelu",
+  "hidden_dropout_prob": 0.1,
+  "hidden_size": 768,
+  "initializer_range": 0.02,
+  "intermediate_size": 3072,
+  "layer_norm_eps": 1e-12,
+  "max_position_embeddings": 512,
+  "model_name": "crypto-sentiment-bert",
+  "num_attention_heads": 12,
+  "num_hidden_layers": 12,
+  "pad_token_id": 0,
+  "type_vocab_size": 2,
+  "vocab_size": 30522,
+  "sentiment_classes": 3,
+  "fine_tuning_params": {
+    "learning_rate": 2e-5,
+    "warmup_steps": 1000,
+    "batch_size": 32,
+    "max_seq_length": 128,
+    "gradient_accumulation_steps": 1
+  },
+  "preprocessing": {
+    "remove_urls": true,
+    "remove_user_mentions": true,
+    "lowercase": true,
+    "remove_hashtags": false,
+    "normalize_numbers": true
+  },
+  "special_tokens": {
+    "bullish_indicators": ["moon", "pump", "hodl", "ath"],
+    "bearish_indicators": ["dump", "rug", "scam", "crash"],
+    "neutral_indicators": ["news", "update", "announcement"]
+  },
+  "class_weights": {
+    "positive": 1.0,
+    "negative": 1.0,
+    "neutral": 1.0
+  },
+  "inference": {
+    "threshold": {
+      "positive": 0.6,
+      "negative": 0.6
+    },
+    "batch_size": 64,
+    "max_workers": 4
+  },
+  "custom_features": {
+    "use_emojis": true,
+    "use_punctuation": true,
+    "use_all_caps": true,
+    "max_emoji_sequence": 5
+  }
+}
