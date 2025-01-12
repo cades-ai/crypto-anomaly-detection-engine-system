@@ -14,6 +14,7 @@ import pytest
 import numpy as np
 from src.sentiment_analysis.social_scraper import SocialScraper
 from src.sentiment_analysis.nlp_processor import NLPProcessor
+from src.sentiment_analysis.sentiment_scorer import SentimentScorer
 
 
 class TestSocialScraper(unittest.TestCase):
@@ -48,6 +49,7 @@ class TestSocialScraper(unittest.TestCase):
         self.assertTrue(len(messages) > 0)
         self.assertTrue(all('timestamp' in msg for msg in messages))
 
+
 class TestNLPProcessor(unittest.TestCase):
     def setUp(self):
         self.processor = NLPProcessor()
@@ -72,6 +74,53 @@ class TestNLPProcessor(unittest.TestCase):
         score = self.processor.detect_manipulation_patterns(suspicious_text)
         self.assertTrue(0 <= score <= 1)
         self.assertGreater(score, 0.5)  # Should detect suspicious patterns
+
+
+class TestSentimentScorer(unittest.TestCase):
+    def setUp(self):
+        self.scorer = SentimentScorer()
+        self.sample_data = {
+            'text': "Extremely bullish signals for $TOKEN",
+            'metrics': {
+                'likes': 100,
+                'retweets': 50,
+                'replies': 25
+            }
+        }
+
+    def test_calculate_engagement_weight(self):
+        weight = self.scorer.calculate_engagement_weight(self.sample_data['metrics'])
+        self.assertTrue(0 <= weight <= 1)
+        
+    def test_analyze_sentiment_trend(self):
+        historical_data = [
+            {'sentiment': 0.8, 'timestamp': '2024-01-01'},
+            {'sentiment': 0.6, 'timestamp': '2024-01-02'},
+            {'sentiment': 0.9, 'timestamp': '2024-01-03'}
+        ]
+        trend = self.scorer.analyze_sentiment_trend(historical_data)
+        self.assertIn('trend_direction', trend)
+        self.assertIn('volatility', trend)
+
+    def test_detect_sentiment_manipulation(self):
+        sudden_changes = [
+            {'sentiment': 0.2, 'timestamp': '2024-01-01T00:00:00'},
+            {'sentiment': 0.9, 'timestamp': '2024-01-01T00:05:00'},  # Suspicious rapid change
+            {'sentiment': 0.85, 'timestamp': '2024-01-01T00:10:00'}
+        ]
+        manipulation_score = self.scorer.detect_sentiment_manipulation(sudden_changes)
+        self.assertGreater(manipulation_score, 0.5)  # Should detect manipulation
+
+    def test_aggregate_cross_platform_sentiment(self):
+        platform_data = {
+            'twitter': {'sentiment': 0.8, 'confidence': 0.9},
+            'telegram': {'sentiment': 0.7, 'confidence': 0.8},
+            'discord': {'sentiment': 0.6, 'confidence': 0.7}
+        }
+        aggregate = self.scorer.aggregate_cross_platform_sentiment(platform_data)
+        self.assertIn('overall_sentiment', aggregate)
+        self.assertIn('confidence_score', aggregate)
+        self.assertTrue(0 <= aggregate['overall_sentiment'] <= 1)
 
 if __name__ == '__main__':
     unittest.main()
