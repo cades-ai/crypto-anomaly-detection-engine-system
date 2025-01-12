@@ -1,0 +1,107 @@
+{
+  "accumulation_patterns": {
+    "stealth_buying": {
+      "time_window": "7d",
+      "min_transactions": 15,
+      "max_transaction_size": "1000000",
+      "min_total_volume": "5000000",
+      "max_price_impact": 0.02,
+      "transaction_spacing": {
+        "min_gap": "300",
+        "max_gap": "7200"
+      }
+    },
+    "wallet_splitting": {
+      "min_new_wallets": 3,
+      "max_new_wallets": 20,
+      "time_window": "48h",
+      "initial_transfer_threshold": "100000",
+      "subsequent_transfer_pattern": {
+        "min_transfers": 2,
+        "max_time_between": "24h"
+      }
+    },
+    "otc_transfers": {
+      "min_size": "10000000",
+      "detection_window": "24h",
+      "suspicious_patterns": {
+        "immediate_resale": "1h",
+        "multiple_receipients": 5
+      }
+    }
+  },
+  "threshold_configs": {
+    "large_wallet": {
+      "min_balance": "50000000",
+      "min_token_types": 3,
+      "activity_frequency": "10"
+    },
+    "suspicious_activity": {
+      "rapid_accumulation": {
+        "volume_increase": 3.0,
+        "time_window": "24h"
+      },
+      "distribution": {
+        "volume_threshold": "5000000",
+        "recipient_count": 50,
+        "time_window": "12h"
+      }
+    }
+  },
+  "monitoring_settings": {
+    "wallet_tracking": {
+      "max_tracked_wallets": 1000,
+      "refresh_interval": "300",
+      "history_depth": "30d"
+    },
+    "token_tracking": {
+      "min_market_cap": "1000000",
+      "min_daily_volume": "100000",
+      "liquidity_threshold": "500000"
+    }
+  },
+  "alert_thresholds": {
+    "high_priority": {
+      "volume_threshold": "10000000",
+      "wallet_age": "30d",
+      "previous_patterns": 2
+    },
+    "medium_priority": {
+      "volume_threshold": "5000000",
+      "wallet_age": "7d",
+      "previous_patterns": 1
+    },
+    "low_priority": {
+      "volume_threshold": "1000000",
+      "wallet_age": "1d",
+      "previous_patterns": 0
+    }
+  },
+  "pattern_weights": {
+    "stealth_buying": 0.35,
+    "wallet_splitting": 0.25,
+    "otc_transfers": 0.20,
+    "rapid_accumulation": 0.15,
+    "distribution": 0.05
+  },
+  "time_windows": {
+    "short_term": "24h",
+    "medium_term": "7d",
+    "long_term": "30d"
+  },
+  "solana_specific": {
+    "program_ids": {
+      "tracked_dexs": [
+        "9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin",
+        "DZnkkTmCiFWfYTfT41X3Rd1kDgozqzxWaHqsw6W4x2oe"
+      ],
+      "excluded_programs": [
+        "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+      ]
+    },
+    "token_standards": {
+      "spl_token": true,
+      "non_fungible": false
+    }
+  }
+}
