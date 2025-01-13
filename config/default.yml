@@ -151,3 +151,69 @@ webhooks:
     - name: 'alerts'
       url_template: 'http://localhost:8080/webhook/alerts'
       secret_header: 'X-Webhook-Secret'
+
+rate_limits:
+  # Basic tier limits
+  basic:
+    default:  # Default limits for unspecified endpoints
+      rate: 1.0  # 1 request per second
+      burst: 5   # Maximum burst of 5 requests
+    
+    # Endpoint specific limits
+    "/api/v1/patterns":
+      rate: 0.2   # 1 request per 5 seconds
+      burst: 2    # Maximum burst of 2 requests
+      
+    "/api/v1/anomalies":
+      rate: 0.1   # 1 request per 10 seconds
+      burst: 1    # No bursting allowed
+      
+    "/ws":  # WebSocket connections
+      rate: 0.033  # 1 connection per 30 seconds
+      burst: 1     # Only one active connection
+  
+  # Premium tier limits
+  premium:
+    default:
+      rate: 5.0   # 5 requests per second
+      burst: 20   # Maximum burst of 20 requests
+    
+    "/api/v1/patterns":
+      rate: 2.0   # 2 requests per second
+      burst: 10   # Maximum burst of 10 requests
+      
+    "/api/v1/anomalies":
+      rate: 1.0   # 1 request per second
+      burst: 5    # Maximum burst of 5 requests
+      
+    "/ws":
+      rate: 0.2   # 1 connection per 5 seconds
+      burst: 5    # Up to 5 simultaneous connections
+  
+  # Enterprise tier limits
+  enterprise:
+    default:
+      rate: 20.0  # 20 requests per second
+      burst: 50   # Maximum burst of 50 requests
+    
+    "/api/v1/patterns":
+      rate: 10.0  # 10 requests per second
+      burst: 30   # Maximum burst of 30 requests
+      
+    "/api/v1/anomalies":
+      rate: 5.0   # 5 requests per second
+      burst: 15   # Maximum burst of 15 requests
+      
+    "/ws":
+      rate: 1.0   # 1 connection per second
+      burst: 20   # Up to 20 simultaneous connections
+
+# Redis configuration
+redis:
+  key_prefix: "cade:ratelimit:"
+  cleanup_interval: 3600  # Clean up expired keys every hour
+
+# Response headers configuration
+headers:
+  include_headers: true   # Include rate limit headers in responses
+  retry_after: true      # Include Retry-After header when limit exceeded
