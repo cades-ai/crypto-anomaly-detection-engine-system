@@ -1,11 +1,11 @@
-"""Crypto Anomaly Detection Engine (CADE)
+"""Crypto Anomaly Detection Engine System (CADES)
 
 Whale Detection Module
 
 This module implements detection and analysis of large holder behavior,
 including accumulation patterns and whale wallet profiling.
 
-Author: CADE Team
+Author: CADES Team
 License: Proprietary"""
 
 from .whale_tracker import WhaleTracker
@@ -13,8 +13,8 @@ from .accumulation_analyzer import AccumulationAnalyzer
 from .pattern_recognizer import PatternRecognizer
 
 __version__ = '1.0.0'
-__author__ = 'CADE Team'
-__email__ = 'contact@cadesol.ai'
+__author__ = 'CADES Team'
+__email__ = 'contact@cades.io'
 
 __all__ = [
     'WhaleTracker',

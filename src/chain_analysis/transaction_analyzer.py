@@ -1,11 +1,11 @@
 """
-Crypto Anomaly Detection Engine (CADE)
+Crypto Anomaly Detection Engine System (CADES)
 Transaction Analysis Module
 
 This module implements advanced transaction pattern analysis for Solana memecoin trading,
 focusing on detecting wash trading, cyclic transactions, and suspicious trading patterns.
 
-Author: CADE Team
+Author: CADES Team
 License: Proprietary
 """
 

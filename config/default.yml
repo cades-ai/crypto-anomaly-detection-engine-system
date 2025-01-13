@@ -1,11 +1,11 @@
-# Crypto Anomaly Detection Engine (CADE)
+# Crypto Anomaly Detection Engine System (CADES)
 #
 # Default Configuration
 #
-# This configuration file provides base settings for the CADE system.
+# This configuration file provides base settings for the CADES system.
 # All environment-specific configs inherit from these defaults.
 #
-# Author: CADE
+# Author: CADES
 # Team License: Proprietary
 
 # API Configuration
@@ -40,8 +40,8 @@ database:
   connection:
     host: 'localhost'
     port: 5432
-    database: 'cade'
-    username: 'cade_user'
+    database: 'cades'
+    username: 'cades_user'
 
 # Model Configuration
 models:
@@ -92,7 +92,7 @@ logging:
   format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
   handlers:
     file:
-      filename: 'cade.log'
+      filename: 'cades.log'
       max_bytes: 10485760
       backup_count: 5
     console:
@@ -133,7 +133,7 @@ security:
     refresh_token_expire_days: 7
   api_key:
     length: 32
-    prefix: 'cade'
+    prefix: 'cades'
   rate_limiting:
     enabled: true
     strategy: 'sliding_window'

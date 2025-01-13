@@ -1,10 +1,10 @@
-"""Crypto Anomaly Detection Engine (CADE)
+"""Crypto Anomaly Detection Engine System (CADES)
 
 Unit Test Configuration
 
 This module contains configuration and fixtures for unit testing individual components.
 
-Author: CADE Team
+Author: CADES Team
 License: Proprietary"""
 
 import pytest

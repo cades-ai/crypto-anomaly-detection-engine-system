@@ -55,6 +55,6 @@ jobs:
         context: .
         file: docker/Dockerfile  # Updated path
         push: false
-        tags: cade:test
+        tags: cades:test
         cache-from: type=gha
         cache-to: type=gha,mode=max

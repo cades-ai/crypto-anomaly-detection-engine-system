@@ -1,10 +1,10 @@
-""" Crypto Anomaly Detection Engine (CADE)
+""" Crypto Anomaly Detection Engine System (CADES)
 
 Accumulation Analyzer Module
 This module analyzes token accumulation patterns of whale wallets,
 identifying strategic buying behavior and potential market manipulation.
 
-Author: CADE Team
+Author: CADES Team
 License: Proprietary
 """
 

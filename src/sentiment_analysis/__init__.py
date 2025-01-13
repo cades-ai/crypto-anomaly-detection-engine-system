@@ -1,11 +1,11 @@
-"""Crypto Anomaly Detection Engine (CADE)
+"""Crypto Anomaly Detection Engine System (CADES)
 
 Sentiment Analysis Module
 
 This module implements social media sentiment analysis and NLP processing
 for detecting market manipulation and crowd sentiment in memecoin communities.
 
-Author: CADE Team
+Author: CADES Team
 License: Proprietary"""
 
 from .social_scraper import SocialScraper
@@ -14,8 +14,8 @@ from .embedding_models import EmbeddingModel
 from .sentiment_scorer import SentimentScorer
 
 __version__ = '1.0.0'
-__author__ = 'CADE Team'
-__email__ = 'contact@cadesol.ai'
+__author__ = 'CADES Team'
+__email__ = 'contact@cades.io'
 
 __all__ = [
     'SocialScraper',

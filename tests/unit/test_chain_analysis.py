@@ -1,11 +1,11 @@
-""" Crypto Anomaly Detection Engine (CADE)
+""" Crypto Anomaly Detection Engine System (CADES)
 
 Chain Analysis Test Suite
 
 This module implements comprehensive testing for blockchain data analysis components,
 including transaction patterns, liquidity tracking, and wallet profiling.
 
-Author: CADE
+Author: CADES
 Team License: Proprietary """
 
 import unittest

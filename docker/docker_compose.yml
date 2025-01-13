@@ -1,4 +1,4 @@
-# Crypto Anomaly Detection Engine (CADE)
+# Crypto Anomaly Detection Engine System (CADES)
 #
 # Docker Compose configuration for local development
 # and testing environments
@@ -22,14 +22,14 @@ services:
     environment:
       - FLASK_APP=src/api/app.py
       - FLASK_ENV=development
-      - DATABASE_URL=postgresql://cade:cade@db:5432/cade
+      - DATABASE_URL=postgresql://cades:cades@db:5432/cades
       - REDIS_URL=redis://redis:6379/0
     depends_on:
       - db
       - redis
       - blockchain-node
     networks:
-      - cade-network
+      - cades-network
 
   worker:
     build:
@@ -41,25 +41,25 @@ services:
       - ./config:/app/config
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/1
-      - DATABASE_URL=postgresql://cade:cade@db:5432/cade
+      - DATABASE_URL=postgresql://cades:cades@db:5432/cades
     depends_on:
       - redis
       - db
     networks:
-      - cade-network
+      - cades-network
 
   db:
     image: postgres:14-alpine
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_USER=cade
-      - POSTGRES_PASSWORD=cade
-      - POSTGRES_DB=cade
+      - POSTGRES_USER=cades
+      - POSTGRES_PASSWORD=cades
+      - POSTGRES_DB=cades
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
-      - cade-network
+      - cades-network
 
   redis:
     image: redis:7-alpine
@@ -68,7 +68,7 @@ services:
     volumes:
       - redis_data:/data
     networks:
-      - cade-network
+      - cades-network
 
   blockchain-node:
     image: trufflesuite/ganache:latest
@@ -80,7 +80,7 @@ services:
       - --chain.chainId=1337
       - --miner.blockTime=5
     networks:
-      - cade-network
+      - cades-network
 
   prometheus:
     image: prom/prometheus:latest
@@ -95,7 +95,7 @@ services:
       - --web.console.libraries=/usr/share/prometheus/console_libraries
       - --web.console.templates=/usr/share/prometheus/consoles
     networks:
-      - cade-network
+      - cades-network
 
   grafana:
     image: grafana/grafana:latest
@@ -110,10 +110,10 @@ services:
     depends_on:
       - prometheus
     networks:
-      - cade-network
+      - cades-network
 
 networks:
-  cade-network:
+  cades-network:
     driver: bridge
 
 volumes:

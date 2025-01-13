@@ -1,11 +1,11 @@
-"""Crypto Anomaly Detection Engine (CADE)
+"""Crypto Anomaly Detection Engine System (CADES)
 
 Chain Analysis Module
 
 This module provides core functionality for blockchain data analysis,
 including transaction monitoring, pattern detection, and liquidity tracking.
 
-Author: CADE Team
+Author: CADES Team
 License: Proprietary"""
 
 from .blockchain_listener import BlockchainListener
@@ -14,8 +14,8 @@ from .liquidity_tracker import LiquidityTracker
 from .wallet_profiler import WalletProfiler
 
 __version__ = '1.0.0'
-__author__ = 'CADE Team'
-__email__ = 'contact@cadesol.ai'
+__author__ = 'CADES Team'
+__email__ = 'contact@cades.io'
 
 # Export main classes for easier access
 __all__ = [

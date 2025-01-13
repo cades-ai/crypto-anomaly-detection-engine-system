@@ -1,11 +1,11 @@
-"""Crypto Anomaly Detection Engine (CADE)
+"""Crypto Anomaly Detection Engine System (CADES)
 
 Score Aggregator Module
 
 This module implements the final risk scoring and index generation system,
 combining signals from all other modules into actionable metrics.
 
-Author: CADE Team
+Author: CADES Team
 License: Proprietary"""
 
 from .metric_calculator import MetricCalculator
@@ -13,8 +13,8 @@ from .risk_scorer import RiskScorer
 from .index_generator import IndexGenerator
 
 __version__ = '1.0.0'
-__author__ = 'CADE Team'
-__email__ = 'contact@cadesol.ai'
+__author__ = 'CADES Team'
+__email__ = 'contact@cades.io'
 
 __all__ = [
     'MetricCalculator',

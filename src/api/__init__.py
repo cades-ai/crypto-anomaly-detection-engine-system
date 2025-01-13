@@ -1,11 +1,11 @@
-"""Crypto Anomaly Detection Engine (CADE)
+"""Crypto Anomaly Detection Engine System (CADES)
 
 API Module
 
-This module implements the REST API and WebSocket interfaces for the CADE system,
+This module implements the REST API and WebSocket interfaces for the CADES system,
 providing real-time access to analysis and detection capabilities.
 
-Author: CADE Team
+Author: CADES Team
 License: Proprietary"""
 
 from .routes import app
@@ -13,8 +13,8 @@ from .middleware import SecurityMiddleware, RateLimiter
 from .websocket import WSManager
 
 __version__ = '1.0.0'
-__author__ = 'CADE Team'
-__email__ = 'contact@cadesol.ai'
+__author__ = 'CADES Team'
+__email__ = 'contact@cades.io'
 
 __all__ = [
     'app',
@@ -37,8 +37,8 @@ SECURITY_CONFIG = {
     'refresh_expiration': 86400,  # 24 hours
     'require_api_key': True,
     'cors_origins': [
-        'https://app.cadesol.ai',
-        'https://api.cadesol.ai'
+        'https://app.cades.io',
+        'https://api.cades.io'
     ]
 }
 

@@ -1,11 +1,11 @@
 """
-Crypto Anomaly Detection Engine (CADE)
+Crypto Anomaly Detection Engine System (CADES)
 Social Media Data Scraper Module
 
 This module implements advanced social media data collection,
 focusing on crypto and memecoin-related content from multiple platforms.
 
-Author: CADE Team
+Author: CADES Team
 License: Proprietary
 """
 

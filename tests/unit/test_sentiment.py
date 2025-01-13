@@ -1,11 +1,11 @@
-""" Crypto Anomaly Detection Engine (CADE)
+""" Crypto Anomaly Detection Engine System (CADES)
 
 Sentiment Analysis Test Suite
 
 This module implements testing for social sentiment analysis components,
 including social media scraping, NLP processing, and cross-platform sentiment aggregation.
 
-Author: CADE
+Author: CADES
 Team License: Proprietary """
 
 import unittest

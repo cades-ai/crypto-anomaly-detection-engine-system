@@ -1,7 +1,7 @@
 """
-Crypto Anomaly Detection Engine (CADE)
+Crypto Anomaly Detection Engine Sys (CADES)
 
-Setup configuration for the CADE package.
+Setup configuration for the CADES package.
 """
 
 from setuptools import setup, find_packages
@@ -22,8 +22,8 @@ setup(
     description='Advanced AI system for detecting anomalous patterns in cryptocurrency markets',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    author='CADE Team',
-    author_email='contact@cadesol.ai',
+    author='CADES Team',
+    author_email='contact@cades.io',
     url='https://github.com/cadesol/crypto-anomaly-detection-engine',
     
     # Package structure
@@ -60,9 +60,9 @@ setup(
     # Entry points for command-line scripts
     entry_points={
         'console_scripts': [
-            'cade=src.api.routes:main',
-            'cade-monitor=scripts.monitor:main',
-            'cade-deploy=scripts.deploy:main',
+            'cades=src.api.routes:main',
+            'cades-monitor=scripts.monitor:main',
+            'cades-deploy=scripts.deploy:main',
         ],
     },
     
@@ -97,7 +97,7 @@ setup(
     # Project URLs
     project_urls={
         'Bug Reports': 'https://github.com/cadesol/crypto-anomaly-detection-engine/issues',
-        'Documentation': 'https://cadesol.ai/docs',
+        'Documentation': 'https://cades.io/docs',
         'Source': 'https://github.com/cadesol/crypto-anomaly-detection-engine',
     },
     

@@ -1,10 +1,10 @@
-""" Crypto Anomaly Detection Engine (CADE)
+""" Crypto Anomaly Detection Engine System (CADES)
 
 Whale Tracker Module
 This module monitors and analyzes large wallet movements on Solana,
 identifying whale activity patterns and potential market impacts.
 
-Author: CADE Team
+Author: CADES Team
 License: Proprietary
 """
 

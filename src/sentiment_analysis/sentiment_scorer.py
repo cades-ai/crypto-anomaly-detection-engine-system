@@ -1,11 +1,11 @@
 """
-Crypto Anomaly Detection Engine (CADE)
+Crypto Anomaly Detection Engine System (CADES)
 Sentiment Scorer Module
 
 This module implements advanced sentiment scoring for crypto social media content,
 focusing on memecoin-specific sentiment patterns and market indicators.
 
-Author: CADE Team
+Author: CADES Team
 License: Proprietary
 """
 

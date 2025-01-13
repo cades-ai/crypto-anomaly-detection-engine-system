@@ -1,6 +1,6 @@
-# CADE (Crypto Anomaly Detection Engine)
+# CADES (Crypto Anomaly Detection Engine System)
 
-CADE is an advanced AI system for detecting anomalous patterns in cryptocurrency markets through on-chain data analysis and social sentiment monitoring. It provides real-time analysis and early warning systems for potential market manipulations.
+CADES is an advanced AI system for detecting anomalous patterns in cryptocurrency markets through on-chain data analysis and social sentiment monitoring. It provides real-time analysis and early warning systems for potential market manipulations.
 
 ## Core Features
 * Real-time blockchain monitoring
@@ -26,7 +26,7 @@ CADE is an advanced AI system for detecting anomalous patterns in cryptocurrency
 
 ## Advanced AI Features
 
-CADE includes advanced AI capabilities for deep pattern analysis and prediction. These features require additional resources.
+CADES includes advanced AI capabilities for deep pattern analysis and prediction. These features require additional resources.
 
 **Note**: Advanced AI features are optional. You can run basic anomaly detection without enabling the full AI pipeline.
 
@@ -76,7 +76,7 @@ server:
   workers: 4
   
 database:
-  url: "postgresql://user:pass@localhost:5432/cade"
+  url: "postgresql://user:pass@localhost:5432/cades"
   pool_size: 20
 
 blockchain:
@@ -142,7 +142,7 @@ python src/api/routes.py --config config/development.yml --enable-ai
 For technical support:
 * Review documentation in `docs/`
 * Submit issues on GitHub
-* Contact technical team: support@cadesol.ai
+* Contact technical team: support@cades.io
 
 ## License
 
@@ -150,5 +150,5 @@ This project is proprietary software. All rights reserved.
 
 ## Contact
 
-* Website: https://cadesol.ai
-* Email: contact@cadesol.ai
+* Website: https://cades.io
+* Email: contact@cades.io

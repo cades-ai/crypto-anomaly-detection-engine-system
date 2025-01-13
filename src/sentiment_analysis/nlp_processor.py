@@ -1,11 +1,11 @@
 """
-Crypto Anomaly Detection Engine (CADE)
+Crypto Anomaly Detection Engine System (CADES)
 Social Media NLP Processor Module
 
 This module implements advanced NLP processing for crypto social media content,
 focusing on memecoin-specific sentiment analysis and trend detection.
 
-Author: CADE Team
+Author: CADES Team
 License: Proprietary
 """
 

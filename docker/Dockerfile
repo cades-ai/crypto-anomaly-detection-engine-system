@@ -1,8 +1,8 @@
-# Crypto Anomaly Detection Engine (CADE)
+# Crypto Anomaly Detection Engine System (CADES)
 #
-# Multi-stage Dockerfile for building and running the CADE system
+# Multi-stage Dockerfile for building and running the CADES system
 #
-# Author: CADE
+# Author: CADES
 # Team License: Proprietary
 
 # Stage 1: Base Python image
@@ -77,10 +77,10 @@ COPY config/production.yml /app/config/
 COPY scripts/prod-entrypoint.sh /app/scripts/
 
 # Create non-root user
-RUN useradd -m -u 1000 cade && \
-    chown -R cade:cade /app
+RUN useradd -m -u 1000 cades && \
+    chown -R cades:cades /app
 
-USER cade
+USER cades
 
 # Set up production entrypoint
 ENTRYPOINT ["/app/scripts/prod-entrypoint.sh"]

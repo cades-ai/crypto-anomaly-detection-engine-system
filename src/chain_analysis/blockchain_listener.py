@@ -1,12 +1,12 @@
 """
-Crypto Anomaly Detection Engine (CADE)
+Crypto Anomaly Detection Engine System (CADES)
 Enhanced Solana Blockchain Listener Module
 
 This module implements advanced real-time monitoring of Solana blockchain activities,
 with sophisticated pattern detection, automated anomaly tracking, and optimized 
 memory management for memecoin analysis.
 
-Author: CADE Team
+Author: CADES Team
 License: Proprietary
 Version: 2.0.0
 """

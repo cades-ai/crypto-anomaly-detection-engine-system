@@ -1,11 +1,11 @@
 """
-Crypto Anomaly Detection Engine (CADE)
+Crypto Anomaly Detection Engine System(CADES)
 API Routes Module
 
-This module implements the REST API endpoints for the CADE system.
+This module implements the REST API endpoints for the CADES system.
 Provides access to analysis, metrics, and monitoring functionality.
 
-Author: CADE Team
+Author: CADES Team
 License: Proprietary
 """
 
@@ -20,7 +20,7 @@ from datetime import datetime
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-app = FastAPI(title="CADE API", version="1.0.0")
+app = FastAPI(title="CADES API", version="1.0.0")
 
 # Add CORS middleware
 app.add_middleware(
@@ -56,7 +56,7 @@ class IndexRequest(BaseModel):
 async def root():
     """API root endpoint."""
     return {
-        "name": "CADE API",
+        "name": "CADES API",
         "version": "1.0.0",
         "status": "operational"
     }

@@ -1,11 +1,11 @@
 """
-Crypto Anomaly Detection Engine (CADE)
+Crypto Anomaly Detection Engine System (CADES)
 Liquidity Pool Tracker Module
 
 This module implements real-time tracking and analysis of Solana DEX liquidity pools,
 focusing on Raydium and Orca pools for memecoin trading pairs.
 
-Author: CADE Team
+Author: CADES Team
 License: Proprietary
 """
 

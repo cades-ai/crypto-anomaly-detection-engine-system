@@ -1,11 +1,11 @@
-""" Crypto Anomaly Detection Engine (CADE)
+""" Crypto Anomaly Detection Engine System (CADES)
 
 Whale Detection Test Suite
 
 This module implements testing for whale activity monitoring components,
 including wallet tracking, accumulation patterns, and coordinated movement detection.
 
-Author: CADE
+Author: CADES
 Team License: Proprietary """
 
 import unittest

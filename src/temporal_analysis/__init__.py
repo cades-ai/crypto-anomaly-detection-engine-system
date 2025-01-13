@@ -1,11 +1,11 @@
-"""Crypto Anomaly Detection Engine (CADE)
+"""Crypto Anomaly Detection Engine System (CADES)
 
 Temporal Analysis Module
 
 This module implements time series analysis and prediction capabilities,
 including LSTM-based prediction and flash crash detection.
 
-Author: CADE Team
+Author: CADES Team
 License: Proprietary"""
 
 from .lstm_predictor import LSTMPredictor
@@ -13,8 +13,8 @@ from .volatility_calculator import VolatilityCalculator
 from .flash_crash_detector import FlashCrashDetector
 
 __version__ = '1.0.0'
-__author__ = 'CADE Team'
-__email__ = 'contact@cadesol.ai'
+__author__ = 'CADES Team'
+__email__ = 'contact@cades.io'
 
 __all__ = [
     'LSTMPredictor',
