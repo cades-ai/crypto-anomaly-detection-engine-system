@@ -1,11 +1,11 @@
 """
-Crypto Anomaly Detection Engine (CADE)
+Crypto Anomaly Detection Engine System (CADES)
 Rate Limiter Module
 
 This module implements rate limiting functionality for the API endpoints
 using a token bucket algorithm and Redis for distributed rate limiting.
 
-Author: CADE Team
+Author: CADES Team
 License: Proprietary
 """
 

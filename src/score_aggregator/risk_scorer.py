@@ -1,11 +1,11 @@
 """
-Crypto Anomaly Detection Engine (CADE)
+Crypto Anomaly Detection Engine System (CADES)
 Risk Scorer Module
 
 This module calculates risk scores based on aggregated metrics and patterns.
 Implements risk assessment and warning generation.
 
-Author: CADE Team
+Author: CADES Team
 License: Proprietary
 """
 
