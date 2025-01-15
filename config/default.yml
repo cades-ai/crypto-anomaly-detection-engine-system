@@ -210,7 +210,7 @@ rate_limits:
 
 # Redis configuration
 redis:
-  key_prefix: "cade:ratelimit:"
+  key_prefix: "cades:ratelimit:"
   cleanup_interval: 3600  # Clean up expired keys every hour
 
 # Response headers configuration

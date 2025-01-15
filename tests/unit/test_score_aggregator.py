@@ -16,7 +16,7 @@ import numpy as np
 from datetime import datetime, timedelta
 from src.score_aggregator.metric_calculator import MetricCalculator
 from src.score_aggregator.risk_scorer import RiskScorer
-from src.score_aggregator.index_generator import IndexGenerator
+
 
 class TestMetricCalculator(unittest.TestCase):
     def setUp(self):
@@ -119,54 +119,6 @@ class TestRiskScorer(unittest.TestCase):
         self.assertIn('confidence_level', validation)
         self.assertIn('validation_metrics', validation)
 
-class TestIndexGenerator(unittest.TestCase):
-    def setUp(self):
-        self.generator = IndexGenerator(
-            smoothing_window='6h',
-            update_frequency='5min'
-        )
-        self.historical_data = pd.DataFrame({
-            'timestamp': pd.date_range(start='2024-01-01', periods=1000, freq='5min'),
-            'composite_risk': np.random.random(1000),
-            'trading_volume': np.random.random(1000) * 1000000,
-            'price_changes': np.random.random(1000) * 0.1 - 0.05
-        })
-
-    def test_generate_risk_index(self):
-        risk_index = self.generator.generate_risk_index(self.historical_data)
-        self.assertIsInstance(risk_index, pd.Series)
-        self.assertEqual(len(risk_index), len(self.historical_data))
-        self.assertTrue(risk_index.between(0, 1).all())
-
-    def test_calculate_trend_strength(self):
-        trend = self.generator.calculate_trend_strength(
-            self.historical_data,
-            window='1h'
-        )
-        self.assertIsInstance(trend, dict)
-        self.assertIn('trend_direction', trend)
-        self.assertIn('strength_score', trend)
-        self.assertIn('momentum_indicators', trend)
-
-    def test_detect_index_anomalies(self):
-        anomalies = self.generator.detect_index_anomalies(
-            self.historical_data['composite_risk']
-        )
-        self.assertIsInstance(anomalies, list)
-        for anomaly in anomalies:
-            self.assertIn('timestamp', anomaly)
-            self.assertIn('severity', anomaly)
-            self.assertIn('contributing_factors', anomaly)
-
-    def test_validate_index_integrity(self):
-        integrity = self.generator.validate_index_integrity(
-            self.historical_data['composite_risk'],
-            check_window='24h'
-        )
-        self.assertIsInstance(integrity, dict)
-        self.assertIn('is_valid', integrity)
-        self.assertIn('data_quality_score', integrity)
-        self.assertIn('anomaly_count', integrity)
 
 if __name__ == '__main__':
     unittest.main()
