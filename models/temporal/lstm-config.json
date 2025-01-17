@@ -1,0 +1,119 @@
+{
+    "model_architecture": {
+        "input_size": 15,
+        "hidden_layers": [
+            {
+                "units": 128,
+                "type": "LSTM",
+                "dropout": 0.2,
+                "recurrent_dropout": 0.1
+            },
+            {
+                "units": 64,
+                "type": "LSTM",
+                "dropout": 0.2,
+                "recurrent_dropout": 0.1
+            },
+            {
+                "units": 32,
+                "type": "Dense",
+                "activation": "relu",
+                "dropout": 0.1
+            }
+        ],
+        "output_layer": {
+            "units": 1,
+            "activation": "linear"
+        }
+    },
+
+    "training_parameters": {
+        "batch_size": 32,
+        "epochs": 100,
+        "validation_split": 0.2,
+        "early_stopping": {
+            "monitor": "val_loss",
+            "patience": 10,
+            "restore_best_weights": true
+        },
+        "learning_rate": {
+            "initial": 0.001,
+            "decay_steps": 1000,
+            "decay_rate": 0.9
+        },
+        "optimizer": {
+            "type": "adam",
+            "beta_1": 0.9,
+            "beta_2": 0.999,
+            "epsilon": 1e-07
+        }
+    },
+
+    "sequence_parameters": {
+        "lookback_window": 24,
+        "forecast_horizon": 6,
+        "feature_columns": [
+            "price",
+            "volume",
+            "liquidity",
+            "rsi",
+            "macd",
+            "bollinger_bands",
+            "whale_activity",
+            "sentiment_score",
+            "market_dominance",
+            "volatility",
+            "liquidity_ratio",
+            "momentum",
+            "trend_strength",
+            "social_volume",
+            "wash_trading_index"
+        ],
+        "target_column": "price",
+        "scaling": {
+            "method": "min_max",
+            "feature_range": [-1, 1]
+        }
+    },
+
+    "inference_settings": {
+        "batch_size": 1,
+        "confidence_threshold": 0.7,
+        "prediction_interval": 300,
+        "anomaly_threshold": 2.5,
+        "minimum_prediction_score": 0.6
+    },
+
+    "hardware_acceleration": {
+        "use_gpu": true,
+        "mixed_precision": true,
+        "cuda_visible_devices": "0",
+        "memory_growth": true,
+        "max_gpu_memory": 0.8
+    },
+
+    "logging_config": {
+        "log_level": "INFO",
+        "save_model_history": true,
+        "tensorboard": {
+            "enabled": true,
+            "update_freq": "epoch",
+            "histogram_freq": 1
+        },
+        "model_checkpoint": {
+            "enabled": true,
+            "save_best_only": true,
+            "save_weights_only": false
+        }
+    },
+
+    "model_metadata": {
+        "version": "1.0.0",
+        "description": "LSTM model for crypto price prediction and anomaly detection",
+        "target_metrics": ["mae", "mse", "rmse", "mape"],
+        "created_at": "2024-01-16",
+        "last_updated": "2024-01-16",
+        "model_type": "temporal_prediction",
+        "framework_version": "tensorflow-2.13.0"
+    }
+}
