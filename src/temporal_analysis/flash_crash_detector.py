@@ -1,11 +1,11 @@
 """
-Crypto Anomaly Detection Engine (CADE)
+Crypto Anomaly Detection Engine System (CADES)
 Flash Crash Detector Module
 
 This module implements advanced detection of flash crashes and sudden price movements
 in memecoin markets, with real-time monitoring and early warning systems.
 
-Author: CADE Team
+Author: CADES Team
 License: Proprietary
 """
 
