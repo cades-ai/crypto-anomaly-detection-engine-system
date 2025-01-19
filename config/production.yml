@@ -1,0 +1,152 @@
+# Crypto Anomaly Detection Engine System (CADES)
+#
+# Production Configuration
+#
+# This configuration file provides production environment settings,
+# overriding defaults for production deployment.
+#
+# Author: CADES
+# Team License: Proprietary
+
+# API Configuration
+api:
+  rate_limit:
+    requests_per_minute: 120
+    burst_size: 20
+  cors:
+    allowed_origins: 
+      - 'https://app.cades.io'
+      - 'https://api.cades.io'
+  timeout:
+    read_seconds: 60
+    write_seconds: 60
+
+# Blockchain Configuration
+blockchain:
+  networks:
+    - name: 'solana-mainnet'
+      rpc_url: '${SOLANA_RPC_URL}'
+      ws_url: '${SOLANA_WS_URL}'
+      commitment: 'confirmed'
+    - name: 'solana-devnet'
+      rpc_url: '${SOLANA_DEVNET_RPC_URL}'
+      ws_url: '${SOLANA_DEVNET_WS_URL}'
+      commitment: 'confirmed'
+  monitoring:
+    slot_distance: 150            # Number of slots to monitor behind tip
+    finalized_depth: 32          # Number of slots to consider finalized
+    max_concurrent_requests: 40   # Maximum concurrent RPC requests
+    commitment_config:
+      processed: true            # Track unconfirmed transactions
+      confirmed: true            # Track confirmed transactions
+      finalized: true           # Track finalized transactions
+    transaction_tracking:
+      mempool_size: 10000       # Maximum mempool transactions to track
+      signature_cache: 50000     # Maximum signatures to cache
+      account_cache: 25000      # Maximum account states to cache
+
+# Database Configuration
+database:
+  type: 'postgresql'
+  pool_size: 50
+  max_overflow: 25
+  connection:
+    host: '${DB_HOST}'
+    port: '${DB_PORT}'
+    database: '${DB_NAME}'
+    username: '${DB_USER}'
+    password: '${DB_PASSWORD}'
+    ssl_mode: 'verify-full'
+
+# Model Configuration
+models:
+  lstm:
+    lookback_period: 48
+    forecast_horizon: 12
+    hidden_layers: [128, 64, 32]
+  sentiment:
+    confidence_threshold: 0.8
+
+# Anomaly Detection
+anomaly:
+  thresholds:
+    price_change: 0.08
+    volume_spike: 4.0
+    liquidity_drop: 0.15
+  sensitivity:
+    low: 0.4
+    medium: 0.7
+    high: 0.9
+
+# Social Media Configuration
+social_media:
+  platforms:
+    - name: 'twitter'
+      api_key: '${TWITTER_API_KEY}'
+      rate_limit: 1000
+    - name: 'telegram'
+      token: '${TELEGRAM_TOKEN}'
+      rate_limit: 50
+    - name: 'discord'
+      token: '${DISCORD_TOKEN}'
+      rate_limit: 100
+
+# Logging Configuration
+logging:
+  level: 'WARNING'
+  handlers:
+    file:
+      filename: '/var/log/cade/cade.log'
+    console:
+      enabled: true
+      level: 'ERROR'
+  monitoring:
+    sentry:
+      dsn: '${SENTRY_DSN}'
+      environment: 'production'
+
+# Cache Configuration
+cache:
+  type: 'redis'
+  ttl:
+    default: 600
+    risk_score: 120
+    whale_activity: 300
+  connection:
+    host: '${REDIS_HOST}'
+    port: '${REDIS_PORT}'
+    password: '${REDIS_PASSWORD}'
+    ssl: true
+
+# Metrics and Monitoring
+metrics:
+  enabled: true
+  collection_interval: 5
+  retention_days: 90
+  exporters:
+    prometheus:
+      enabled: true
+      auth_token: '${PROM_AUTH_TOKEN}'
+    datadog:
+      enabled: true
+      api_key: '${DD_API_KEY}'
+      app_key: '${DD_APP_KEY}'
+
+# Security Configuration
+security:
+  jwt:
+    secret_key: '${JWT_SECRET_KEY}'
+    algorithm: 'HS512'
+  ssl:
+    enabled: true
+    cert_path: '/etc/ssl/certs/cade.pem'
+    key_path: '/etc/ssl/private/cade.key'
+  
+# Webhook Configuration
+webhooks:
+  retry:
+    max_attempts: 5
+    max_delay: 600
+  endpoints:
+    - name: 'alerts'
+      url_template: 'https://alerts.cades.io

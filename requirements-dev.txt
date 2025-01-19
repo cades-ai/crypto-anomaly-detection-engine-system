@@ -1,0 +1,81 @@
+# Testing
+pytest>=7.4.0
+pytest-asyncio>=0.21.1
+pytest-cov>=4.1.0
+pytest-mock>=3.11.1
+pytest-xdist>=3.3.1
+pytest-env>=1.0.1
+pytest-timeout>=2.1.0
+pytest-randomly>=3.13.0
+hypothesis>=6.82.6
+
+# Linting and Formatting
+black>=23.7.0
+isort>=5.12.0
+flake8>=6.0.0
+flake8-docstrings>=1.7.0
+flake8-bugbear>=23.3.12
+flake8-comprehensions>=3.14.0
+flake8-debugger>=4.1.2
+flake8-string-format>=0.3.0
+pylint>=2.17.5
+
+# Type Checking
+mypy>=1.4.1
+types-requests>=2.31.0.2
+types-PyYAML>=6.0.12.11
+types-python-dateutil>=2.8.19.14
+types-setuptools>=68.1.0.0
+types-redis>=4.6.0.3
+
+# Security
+bandit>=1.7.5
+safety>=2.3.5
+pip-audit>=2.6.1
+
+# Documentation
+sphinx>=7.1.2
+sphinx-autodoc-typehints>=1.24.0
+sphinx-rtd-theme>=1.2.2
+mkdocs>=1.5.2
+mkdocs-material>=9.1.21
+pdoc3>=0.10.0
+
+# Development Tools
+pre-commit>=3.3.3
+ipython>=8.14.0
+ipdb>=0.13.13
+rich>=13.5.2
+debugpy>=1.6.7
+
+# Performance Testing
+locust>=2.16.1
+asyncio-throttle>=1.0.2
+mockup>=0.1.0
+faker>=19.3.0
+
+# Docker Development
+docker-compose>=1.29.2
+watchdog>=3.0.0
+
+# Profiling
+scalene>=1.5.21
+memory_profiler>=0.61.0
+line_profiler>=4.0.3
+
+# Database Migration and Management
+alembic>=1.11.3
+SQLAlchemy-Utils>=0.41.1
+
+# API Development
+httpx>=0.24.1
+requests-mock>=1.11.0
+responses>=0.23.3
+aioresponses>=0.7.4
+
+# Additional Development Dependencies
+pip-tools>=7.3.0
+bump2version>=1.0.1
+python-dotenv>=1.0.0
+python-json-logger>=2.0.7
+structlog>=23.1.0

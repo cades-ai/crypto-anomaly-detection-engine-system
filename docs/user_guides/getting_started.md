@@ -26,7 +26,7 @@ Welcome to CADES (Crypto Anomaly Detection Engine  System), a cutting-edge AI sy
 #### Quick Start
 ```bash
 # Clone the repository
-git clone https://github.com/cades-ai/crypto-anomaly-detection-engine-system.git
+git clone https://github.com/joengo72/crypto-anomaly-detection-engine-system.git
 cd crypto-anomaly-detection-engine-system
 
 # Build and start the system
@@ -155,7 +155,7 @@ Configure logging levels in `config/default.yml`:
    - Consider scaling horizontally
 
 ### Support Channels
-- GitHub Issues: [https://github.com/cades-ai/crypto-anomaly-detection-engine-system/issues](https://github.com/cades-ai/crypto-anomaly-detection-engine-system/issues)
+- GitHub Issues: [https://github.com/joengo72/crypto-anomaly-detection-engine-system/issues](https://github.com/joengo72/crypto-anomaly-detection-engine-system/issues)
 - Email Support: support@cades.io
 
 ## Next Steps

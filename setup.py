@@ -24,7 +24,7 @@ setup(
     long_description_content_type='text/markdown',
     author='CADES Team',
     author_email='contact@cades.io',
-    url='https://github.com/cadesol/crypto-anomaly-detection-engine',
+    url='https://github.com/joengo72/crypto-anomaly-detection-engine-system',
     
     # Package structure
     packages=find_packages(where='src'),
@@ -96,9 +96,9 @@ setup(
     
     # Project URLs
     project_urls={
-        'Bug Reports': 'https://github.com/cadesol/crypto-anomaly-detection-engine/issues',
+        'Bug Reports': 'https://github.com/joengo72/crypto-anomaly-detection-engine-system/issues',
         'Documentation': 'https://cades.io/docs',
-        'Source': 'https://github.com/cadesol/crypto-anomaly-detection-engine',
+        'Source': 'https://github.com/joengo72/crypto-anomaly-detection-engine-system',
     },
     
     # Keywords for PyPI

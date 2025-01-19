@@ -1,0 +1,151 @@
+# Crypto Anomaly Detection Engine System (CADES)
+#
+# Development Configuration
+#
+# This configuration file provides development environment settings,
+# overriding defaults for local development and testing.
+#
+# Author: CADES
+# Team License: Proprietary
+
+# API Configuration
+api:
+  rate_limit:
+    requests_per_minute: 1000  # Higher limit for testing
+    burst_size: 50
+  cors:
+    allowed_origins: ['*']  # Allow all origins in development
+  timeout:
+    read_seconds: 300  # Longer timeouts for debugging
+    write_seconds: 300
+
+# Blockchain Configuration
+blockchain:
+  networks:
+    - name: 'ethereum'
+      rpc_url: 'http://localhost:8545'  # Local Ganache/Hardhat
+      chain_id: 1337
+    - name: 'bsc'
+      rpc_url: 'http://localhost:8546'  # Local BSC node
+      chain_id: 97  # BSC testnet
+  monitoring:
+    blocks_to_watch: 100  # Smaller range for faster testing
+    confirmation_blocks: 1  # Faster confirmations for testing
+
+# Database Configuration
+database:
+  type: 'postgresql'
+  pool_size: 5
+  max_overflow: 5
+  connection:
+    host: 'localhost'
+    port: 5432
+    database: 'cade_dev'
+    username: 'cade_dev'
+    password: 'development'
+    ssl_mode: 'disable'
+
+# Model Configuration
+models:
+  lstm:
+    lookback_period: 12  # Smaller period for faster training
+    forecast_horizon: 3
+    hidden_layers: [32, 16]  # Simpler model for development
+  sentiment:
+    confidence_threshold: 0.5  # Lower threshold for testing
+
+# Anomaly Detection
+anomaly:
+  thresholds:
+    price_change: 0.05  # More sensitive for testing
+    volume_spike: 2.0
+    liquidity_drop: 0.1
+  time_windows:
+    short_term: '1m'  # Shorter windows for faster testing
+    medium_term: '5m'
+    long_term: '1h'
+
+# Social Media Configuration
+social_media:
+  platforms:
+    - name: 'twitter'
+      api_key: 'dev_key'
+      rate_limit: 100
+    - name: 'telegram'
+      token: 'dev_token'
+      rate_limit: 100
+    - name: 'discord'
+      token: 'dev_token'
+      rate_limit: 100
+  monitoring:
+    update_interval: 60  # Faster updates for testing
+    cache_duration: 300
+
+# Logging Configuration
+logging:
+  level: 'DEBUG'
+  handlers:
+    file:
+      filename: 'cade_dev.log'
+      max_bytes: 1048576  # Smaller log files
+    console:
+      enabled: true
+      level: 'DEBUG'
+
+# Cache Configuration
+cache:
+  type: 'redis'
+  ttl:
+    default: 60  # Shorter cache times for development
+    risk_score: 30
+    whale_activity: 60
+  connection:
+    host: 'localhost'
+    port: 6379
+    password: null
+    ssl: false
+
+# Metrics and Monitoring
+metrics:
+  enabled: true
+  collection_interval: 1  # Frequent updates for debugging
+  retention_days: 7
+  exporters:
+    prometheus:
+      enabled: true
+      port: 9090
+    statsd:
+      enabled: true
+      host: 'localhost'
+      port: 8125
+
+# Security Configuration
+security:
+  jwt:
+    secret_key: 'development_secret_key'
+    algorithm: 'HS256'
+    access_token_expire_minutes: 1440  # 24 hours for development
+  ssl:
+    enabled: false
+  
+# Webhook Configuration
+webhooks:
+  retry:
+    max_attempts: 2
+    initial_delay: 1
+  endpoints:
+    - name: 'alerts'
+      url_template: 'http://localhost:3000/webhook/alerts'
+      secret_header: 'dev_secret'
+
+# Development-specific Features
+development:
+  mock_data:
+    enabled: true
+    seed: 42
+  hot_reload:
+    enabled: true
+    watch_paths: ['src/', 'config/']
+  profiling:
+    enabled: true
+    port: 9999

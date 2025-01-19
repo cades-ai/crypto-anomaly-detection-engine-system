@@ -52,8 +52,8 @@ CADES includes advanced AI capabilities for deep pattern analysis and prediction
 
 ```bash
 # Clone the repository
-git clone https://github.com/cadesol/crypto-anomaly-detection-engine.git
-cd crypto-anomaly-detection-engine
+git clone https://github.com/joengo72/crypto-anomaly-detection-engine-system.git
+cd crypto-anomaly-detection-engine-system
 
 # Create virtual environment
 python -m venv venv
@@ -141,7 +141,7 @@ python src/api/routes.py --config config/development.yml --enable-ai
 
 For technical support:
 * Review documentation in `docs/`
-* Submit issues on GitHub
+* Submit issues on GitHub: https://github.com/joengo72/crypto-anomaly-detection-engine-system/issues
 * Contact technical team: support@cades.io
 
 ## License
