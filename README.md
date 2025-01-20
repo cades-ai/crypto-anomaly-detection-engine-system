@@ -1,54 +1,80 @@
-# CADES (Crypto Anomaly Detection Engine System)
+# CADES (Crypto Anomaly Detection Engine System) 
 
-CADES is an advanced AI system for detecting anomalous patterns in cryptocurrency markets through on-chain data analysis and social sentiment monitoring. It provides real-time analysis and early warning systems for potential market manipulations.
+<div align="center">
 
-## Core Features
-* Real-time blockchain monitoring
-* Social sentiment analysis
-* Pattern recognition system
-* Anomaly detection engine
-* Risk scoring system
+[![GitHub release](https://img.shields.io/github/v/release/joengo72/crypto-anomaly-detection-engine-system?include_prereleases&style=flat-square)](https://github.com/joengo72/crypto-anomaly-detection-engine-system/releases)
+[![Build Status](https://img.shields.io/github/workflow/status/joengo72/crypto-anomaly-detection-engine-system/CI%20Pipeline?style=flat-square)](https://github.com/joengo72/crypto-anomaly-detection-engine-system/actions)
+[![License](https://img.shields.io/badge/license-Proprietary-red.svg?style=flat-square)](LICENSE)
+[![Python](https://img.shields.io/badge/python-3.9%2B-blue?style=flat-square)](https://www.python.org/downloads/)
 
-## Basic System Requirements
+*Advanced AI-powered system for detecting market anomalies in the Solana ecosystem*
 
-### Hardware Requirements
-* CPU: 8+ cores (AMD Ryzen 7/Intel i7 or better)
-* RAM: 32GB minimum
-* Storage: 1TB NVMe SSD
-* Network: 1Gbps stable connection
+[Getting Started](#getting-started) •
+[Features](#features) •
+[Installation](#installation) •
+[Documentation](https://cades.gitbook.io/docs) •
+[Support](#support)
 
-### Software Requirements
-* Operating System: Ubuntu 22.04+ / Debian 11+
-* Python 3.9 or higher
-* Docker 24.0+
-* NGINX 1.18+
-* PostgreSQL 14+
+</div>
 
-## Advanced AI Features
+## Overview
 
-CADES includes advanced AI capabilities for deep pattern analysis and prediction. These features require additional resources.
+CADES is a state-of-the-art AI system designed to detect and analyze anomalous patterns in cryptocurrency markets through sophisticated on-chain data analysis and social sentiment monitoring. By leveraging advanced machine learning algorithms and real-time data processing, CADES provides early warning systems for potential market manipulations and emerging trends.
 
-**Note**: Advanced AI features are optional. You can run basic anomaly detection without enabling the full AI pipeline.
+## Features
 
-### Additional Hardware Requirements for AI Pipeline
-* CPU: 16+ cores recommended
-* RAM: 64GB minimum
-* Storage: Additional 1TB NVMe SSD
-* GPU: NVIDIA RTX 4080 16GB or better
-* Network: 10Gbps connection recommended
+### Core Capabilities
 
-### AI Specifications
-* Models: BERT, LSTM, Custom Transformers
-* Quantization: FP16 precision
-* Memory Usage: ~40GB RAM when fully active
-* Disk Space: ~100GB for model files
-* Processing Time: Sub-second for basic analysis
-* Context Window: 8192 tokens
-* Data Sources: On-chain + 5 social platforms
+- **Real-time Blockchain Analysis**
+  - Continuous monitoring of Solana transactions
+  - Pattern recognition in token movements
+  - Liquidity flow analysis
+  - Whale activity tracking
 
-## Setup Guide
+- **Sentiment Analysis Engine**
+  - Multi-platform social media monitoring
+  - Natural Language Processing (NLP)
+  - Sentiment trend detection
+  - Influence measurement
 
-1. Basic Installation
+- **Advanced Pattern Recognition**
+  - Machine learning-based anomaly detection
+  - Time series analysis
+  - Behavioral pattern matching
+  - Risk scoring system
+
+### AI Pipeline Features
+
+- **Deep Learning Models**
+  - BERT for sentiment analysis
+  - LSTM for time series prediction
+  - Custom transformers for pattern detection
+  - Adaptive learning systems
+
+- **Real-time Processing**
+  - Sub-second analysis time
+  - Concurrent processing pipeline
+  - Scalable architecture
+  - GPU acceleration support
+
+## System Requirements
+
+### Minimum Configuration
+- CPU: 8+ cores (AMD Ryzen 7/Intel i7 or better)
+- RAM: 32GB
+- Storage: 1TB NVMe SSD
+- Network: 1Gbps stable connection
+
+### AI Pipeline Configuration
+- CPU: 16+ cores recommended
+- RAM: 64GB minimum
+- GPU: NVIDIA RTX 4080 16GB or better
+- Storage: Additional 1TB NVMe SSD
+- Network: 10Gbps connection recommended
+
+## Getting Started
+
+### Quick Start
 
 ```bash
 # Clone the repository
@@ -57,19 +83,27 @@ cd crypto-anomaly-detection-engine-system
 
 # Create virtual environment
 python -m venv venv
-source venv/bin/activate  # Linux/Mac
-# or
-.\venv\Scripts\activate  # Windows
+source venv/bin/activate
 
 # Install dependencies
 pip install -r requirements.txt
+
+# Start the system
+python src/api/routes.py --config config/development.yml
 ```
 
-2. Configure Your System
-Create a configuration file at `config/development.yml`:
+### Docker Deployment
+
+```bash
+# Build and run with Docker
+docker-compose up -d
+```
+
+## Configuration
+
+Create your configuration file at `config/development.yml`:
 
 ```yaml
-# Basic configuration
 server:
   host: "0.0.0.0"
   port: 8000
@@ -82,67 +116,32 @@ database:
 blockchain:
   rpc_endpoint: "your-solana-rpc"
   update_interval: 60
-
-# AI pipeline configuration (optional)
-ai_pipeline:
-  enabled: false  # Set to true for full AI capabilities
-  model_path: "./models/"
-  batch_size: 32
-  use_gpu: true
-  memory_limit: 40GB
-```
-
-3. Start the System
-
-For basic monitoring:
-```bash
-# Start the basic system
-python src/api/routes.py --config config/development.yml
-```
-
-For full AI pipeline:
-```bash
-# Download AI models (approximately 100GB)
-python scripts/download_models.py
-
-# Start with full AI capabilities
-python src/api/routes.py --config config/development.yml --enable-ai
 ```
 
 ## Performance Optimization
 
-### Basic System Optimization
-* Monitor database performance
-* Adjust worker processes
-* Configure connection pooling
-* Optimize blockchain RPC calls
+### Best Practices
+- Enable GPU acceleration when available
+- Adjust batch sizes based on available memory
+- Configure optimal worker processes
+- Implement connection pooling
 
-### AI Pipeline Optimization
-* Use GPU acceleration when available
-* Adjust batch sizes based on memory
-* Enable model quantization
-* Configure processing queues
-
-## Troubleshooting
-
-1. **Basic System Issues**
-   * Check database connectivity
-   * Verify RPC endpoint access
-   * Monitor system resources
-   * Check log files in `logs/`
-
-2. **AI Pipeline Issues**
-   * Insufficient GPU memory: Reduce batch size
-   * High CPU usage: Adjust worker count
-   * Slow processing: Check network bandwidth
-   * Model loading errors: Verify model files
+### Monitoring
+- Real-time system metrics
+- Resource utilization tracking
+- Performance bottleneck detection
+- Automated alerting system
 
 ## Support
 
-For technical support:
-* Review documentation: https://cades.gitbook.io/docs
-* Submit issues on GitHub: https://github.com/joengo72/crypto-anomaly-detection-engine-system/issues
-* Contact technical team: support@cades.io
+### Documentation
+- [Official Documentation](https://cades.gitbook.io/docs)
+- [API Reference](https://cades.gitbook.io/docs/iii.-api-integration)
+- [Deployment Guide](https://cades.gitbook.io/docs/iv.-deployment-architecture)
+
+### Community
+- [GitHub Issues](https://github.com/joengo72/crypto-anomaly-detection-engine-system/issues)
+- [Technical Support](mailto:support@cades.io)
 
 ## License
 
@@ -150,5 +149,8 @@ This project is proprietary software. All rights reserved.
 
 ## Contact
 
-* Website: https://cades.io
-* Email: contact@cades.io
+- Website: [https://cades.io](https://cades.io)
+- Email: [contact@cades.io](mailto:contact@cades.io)
+- Twitter: [@CADES_AI](https://twitter.com/CADES_AI)
+
+---
