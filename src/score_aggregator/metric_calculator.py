@@ -11,14 +11,24 @@ License: Proprietary
 
 from dataclasses import dataclass
 from datetime import datetime, timedelta
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 import numpy as np
 import logging
 from collections import defaultdict
+from scipy.stats import pearsonr
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+@dataclass
+class TrendAnalysis:
+    """Trend analysis results"""
+    direction: str  # 'up', 'down', 'sideways'
+    strength: float  # 0-1
+    momentum: float  # -1 to 1
+    acceleration: float  # Rate of change
+    correlation: Dict[str, float]  # Correlations between metrics
 
 @dataclass
 class AggregatedMetrics:
@@ -30,6 +40,7 @@ class AggregatedMetrics:
     market_metrics: Dict[str, float]
     composite_score: float
     confidence: float
+    trend_analysis: Optional[TrendAnalysis] = None
 
 class MetricCalculator:
     """Aggregates and calculates metrics from various analysis modules."""
@@ -37,7 +48,8 @@ class MetricCalculator:
     def __init__(
         self,
         update_interval: int = 60,
-        metric_weights: Optional[Dict[str, float]] = None
+        metric_weights: Optional[Dict[str, float]] = None,
+        smoothing_factor: float = 0.2  # New parameter for exponential smoothing
     ):
         """Initialize the metric calculator."""
         self.update_interval = update_interval
@@ -46,9 +58,11 @@ class MetricCalculator:
             'sentiment': 0.3,
             'market': 0.3
         }
+        self.smoothing_factor = smoothing_factor
         
         # Tracking
         self.metric_history = defaultdict(list)
+        self.smoothed_metrics = defaultdict(dict)  # New tracking for smoothed values
 
     async def calculate_metrics(
         self,
@@ -64,6 +78,11 @@ class MetricCalculator:
             sentiment_metrics = self._calculate_sentiment_metrics(sentiment_data)
             market_metrics = self._calculate_market_metrics(market_data)
             
+            # Apply exponential smoothing
+            chain_metrics = self._apply_smoothing(token_address, 'chain', chain_metrics)
+            sentiment_metrics = self._apply_smoothing(token_address, 'sentiment', sentiment_metrics)
+            market_metrics = self._apply_smoothing(token_address, 'market', market_metrics)
+            
             # Calculate composite score
             composite_score = self._calculate_composite_score(
                 chain_metrics,
@@ -71,11 +90,20 @@ class MetricCalculator:
                 market_metrics
             )
             
-            # Calculate confidence
+            # Calculate confidence with improved checks
             confidence = self._calculate_confidence(
                 chain_data,
                 sentiment_data,
-                market_data
+                market_data,
+                composite_score  # Added composite score as a factor
+            )
+            
+            # Calculate trend analysis
+            trend_analysis = self._analyze_trends(
+                token_address,
+                chain_metrics,
+                sentiment_metrics,
+                market_metrics
             )
             
             # Create result
@@ -86,17 +114,146 @@ class MetricCalculator:
                 sentiment_metrics=sentiment_metrics,
                 market_metrics=market_metrics,
                 composite_score=composite_score,
-                confidence=confidence
+                confidence=confidence,
+                trend_analysis=trend_analysis
             )
             
             # Update history
             self._update_history(token_address, metrics)
             
             return metrics
-        
+            
         except Exception as e:
             logger.error(f"Error calculating metrics: {e}")
             raise
+
+    def _apply_smoothing(
+        self,
+        token_address: str,
+        metric_type: str,
+        current_metrics: Dict[str, float]
+    ) -> Dict[str, float]:
+        """Apply exponential smoothing to metrics."""
+        smoothed = {}
+        for key, value in current_metrics.items():
+            prev_value = self.smoothed_metrics[token_address].get(f"{metric_type}_{key}", value)
+            smoothed[key] = (self.smoothing_factor * value + 
+                           (1 - self.smoothing_factor) * prev_value)
+            self.smoothed_metrics[token_address][f"{metric_type}_{key}"] = smoothed[key]
+        return smoothed
+
+    def _analyze_trends(
+        self,
+        token_address: str,
+        chain_metrics: Dict[str, float],
+        sentiment_metrics: Dict[str, float],
+        market_metrics: Dict[str, float]
+    ) -> Optional[TrendAnalysis]:
+        """Analyze trends in metrics."""
+        try:
+            history = self.metric_history[token_address]
+            if len(history) < 2:
+                return None
+
+            # Calculate trend direction and strength
+            recent_scores = [h.composite_score for h in history[-10:]]
+            direction = 'up' if recent_scores[-1] > recent_scores[0] else 'down'
+            if abs(recent_scores[-1] - recent_scores[0]) < 0.05:
+                direction = 'sideways'
+
+            # Calculate momentum
+            momentum = np.mean(np.diff(recent_scores))
+
+            # Calculate acceleration
+            acceleration = np.mean(np.diff(np.diff(recent_scores))) if len(recent_scores) > 2 else 0
+
+            # Calculate correlations
+            correlations = self._calculate_metric_correlations(history[-20:])
+
+            return TrendAnalysis(
+                direction=direction,
+                strength=abs(recent_scores[-1] - recent_scores[0]),
+                momentum=momentum,
+                acceleration=acceleration,
+                correlation=correlations
+            )
+
+        except Exception as e:
+            logger.error(f"Error analyzing trends: {e}")
+            return None
+
+    def _calculate_metric_correlations(
+        self,
+        history: List[AggregatedMetrics]
+    ) -> Dict[str, float]:
+        """Calculate correlations between different metrics."""
+        try:
+            if len(history) < 2:
+                return {}
+
+            composite_scores = [h.composite_score for h in history]
+            correlations = {}
+
+            # Chain metrics correlation
+            chain_scores = [np.mean(list(h.chain_metrics.values())) for h in history]
+            correlations['chain'] = pearsonr(composite_scores, chain_scores)[0]
+
+            # Sentiment metrics correlation
+            sentiment_scores = [np.mean(list(h.sentiment_metrics.values())) for h in history]
+            correlations['sentiment'] = pearsonr(composite_scores, sentiment_scores)[0]
+
+            # Market metrics correlation
+            market_scores = [np.mean(list(h.market_metrics.values())) for h in history]
+            correlations['market'] = pearsonr(composite_scores, market_scores)[0]
+
+            return correlations
+
+        except Exception as e:
+            logger.error(f"Error calculating correlations: {e}")
+            return {}
+
+    def _calculate_confidence(
+        self,
+        chain_data: Dict,
+        sentiment_data: Dict,
+        market_data: Dict,
+        composite_score: float
+    ) -> float:
+        """Calculate confidence score with improved checks."""
+        try:
+            confidence_factors = []
+            
+            # Data quantity confidence
+            if chain_data.get('data_points', 0) > 0:
+                confidence_factors.append(
+                    min(1.0, chain_data['data_points'] / 100)
+                )
+            
+            # Sentiment confidence
+            if 'confidence' in sentiment_data:
+                confidence_factors.append(sentiment_data['confidence'])
+            
+            # Market data quality
+            if 'data_quality' in market_data:
+                confidence_factors.append(market_data['data_quality'])
+            
+            # New: Historical consistency check
+            if self.metric_history:
+                recent_scores = [m.composite_score for m in self.metric_history[-5:]]
+                if recent_scores:
+                    consistency = 1 - np.std(recent_scores)
+                    confidence_factors.append(consistency)
+            
+            # New: Composite score reasonableness check
+            if 0 <= composite_score <= 1:
+                score_confidence = 1 - abs(0.5 - composite_score)
+                confidence_factors.append(score_confidence)
+            
+            return float(np.mean(confidence_factors)) if confidence_factors else 0.0
+            
+        except Exception as e:
+            logger.error(f"Error calculating confidence: {e}")
+            return 0.0
 
     def _calculate_chain_metrics(self, chain_data: Dict) -> Dict[str, float]:
         """Calculate on-chain metrics."""
