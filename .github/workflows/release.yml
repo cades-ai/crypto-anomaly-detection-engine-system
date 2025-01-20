@@ -1,0 +1,151 @@
+# Crypto Anomaly Detection Engine System (CADES)
+#
+# Release Workflow
+#
+# This workflow implements automated deployment processes
+# for releasing new versions to staging and production environments.
+#
+# Author: CADES
+# Team License: Proprietary
+
+name: Release and Deploy
+
+on:
+  release:
+    types: [published]
+
+env:
+  KUBE_NAMESPACE: cades
+  HELM_VERSION: v3.12.3
+  DEPLOYMENT_NAME: cade-engine
+
+jobs:
+  prepare-release:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.get-version.outputs.version }}
+    steps:
+      - name: Get version
+        id: get-version
+        run: echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Validate version
+        run: |
+          if [[ ! "${{ steps.get-version.outputs.version }}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Invalid version format. Must be vX.Y.Z"
+            exit 1
+          fi
+
+  deploy-staging:
+    needs: prepare-release
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'latest'
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v3
+        with:
+          version: ${{ env.HELM_VERSION }}
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Update kubeconfig
+        run: |
+          aws eks update-kubeconfig --name cade-staging-cluster --region us-east-1
+
+      - name: Deploy to staging
+        run: |
+          helm upgrade --install ${{ env.DEPLOYMENT_NAME }} ./helm \
+            --namespace ${{ env.KUBE_NAMESPACE }}-staging \
+            --set image.tag=${{ needs.prepare-release.outputs.version }} \
+            --set environment=staging \
+            --values ./helm/values-staging.yaml \
+            --atomic --timeout 5m
+
+      - name: Run integration tests
+        run: |
+          pip install -r requirements-test.txt
+          pytest tests/integration/
+
+  deploy-production:
+    needs: [prepare-release, deploy-staging]
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://api.cades.io
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'latest'
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v3
+        with:
+          version: ${{ env.HELM_VERSION }}
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Update kubeconfig
+        run: |
+          aws eks update-kubeconfig --name cade-production-cluster --region us-east-1
+
+      - name: Deploy to production
+        run: |
+          helm upgrade --install ${{ env.DEPLOYMENT_NAME }} ./helm \
+            --namespace ${{ env.KUBE_NAMESPACE }}-prod \
+            --set image.tag=${{ needs.prepare-release.outputs.version }} \
+            --set environment=production \
+            --values ./helm/values-production.yaml \
+            --atomic --timeout 10m
+
+      - name: Verify deployment
+        run: |
+          kubectl rollout status deployment/${{ env.DEPLOYMENT_NAME }} \
+            -n ${{ env.KUBE_NAMESPACE }}-prod --timeout=300s
+
+      - name: Run smoke tests
+        run: |
+          pip install -r requirements-test.txt
+          pytest tests/smoke/
+
+  notify:
+    needs: [deploy-production]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Notify Slack on success
+        if: success()
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          channel-id: 'deployments'
+          slack-message: "🚀 Successfully deployed version ${{ needs.prepare-release.outputs.version }} to production!"
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+
+      - name: Notify Slack on failure
+        if: failure()
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          channel-id: 'deployments'
+          slack-message: "❌ Failed to deploy version ${{ needs.prepare-release.outputs.version }}. Check GitHub Actions for details."
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
