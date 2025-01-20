@@ -3,7 +3,7 @@ requires = ["setuptools>=45", "wheel", "pip>=21.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "crypto-anomaly-detection-engine-system"
+name = "cades"
 version = "1.0.0"
 description = "Advanced AI system for detecting anomalous patterns in cryptocurrency markets"
 readme = "README.md"

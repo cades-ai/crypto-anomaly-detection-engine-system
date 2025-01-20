@@ -1,5 +1,5 @@
 """
-Crypto Anomaly Detection Engine Sys (CADES)
+Crypto Anomaly Detection Engine System (CADES)
 
 Setup configuration for the CADES package.
 """
@@ -17,7 +17,7 @@ with open(path.join(this_directory, 'requirements.txt'), encoding='utf-8') as f:
     requirements = [line.strip() for line in f if line.strip() and not line.startswith('#')]
 
 setup(
-    name='crypto-anomaly-detection-engine',
+    name='cades',
     version='1.0.0',
     description='Advanced AI system for detecting anomalous patterns in cryptocurrency markets',
     long_description=long_description,
