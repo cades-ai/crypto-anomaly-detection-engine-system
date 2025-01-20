@@ -140,7 +140,7 @@ python src/api/routes.py --config config/development.yml --enable-ai
 ## Support
 
 For technical support:
-* Review documentation in `docs/`
+* Review documentation: https://cades.gitbook.io/docs
 * Submit issues on GitHub: https://github.com/joengo72/crypto-anomaly-detection-engine-system/issues
 * Contact technical team: support@cades.io
 

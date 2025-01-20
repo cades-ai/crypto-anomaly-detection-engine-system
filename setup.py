@@ -97,7 +97,7 @@ setup(
     # Project URLs
     project_urls={
         'Bug Reports': 'https://github.com/joengo72/crypto-anomaly-detection-engine-system/issues',
-        'Documentation': 'https://cades.io/docs',
+        'Documentation': 'https://cades.gitbook.io/docs',
         'Source': 'https://github.com/joengo72/crypto-anomaly-detection-engine-system',
     },
     

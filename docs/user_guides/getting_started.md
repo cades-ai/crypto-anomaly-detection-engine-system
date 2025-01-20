@@ -165,7 +165,7 @@ Configure logging levels in `config/default.yml`:
 - Experiment with different token analyses
 
 ## Legal & Compliance
-By using CADES, you agree to our [Terms of Service](https://cades.io/terms) and understand the inherent risks in cryptocurrency market analysis.
+By using CADES, you agree to our [Terms of Service](https://cades.gitbook.io/docs/vi.-company/3.-terms-of-service) and understand the inherent risks in cryptocurrency market analysis.
 
 ---
 

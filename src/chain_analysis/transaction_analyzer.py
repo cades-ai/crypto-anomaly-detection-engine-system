@@ -15,7 +15,7 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta
 from typing import Dict, List, Set, Optional, Tuple
 import numpy as np
-from scipy.stats import zscore
+from scipy.stats import zscore 
 import logging
 
 # Configure logging
